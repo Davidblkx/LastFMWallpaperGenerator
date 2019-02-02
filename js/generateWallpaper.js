@@ -32,7 +32,7 @@ function getData() {
     calculateTotalAlbums(resolution);
     
     //set the LastFM API call url with the parameters 
-    var getTopAlbums = "http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&format=json" +
+    var getTopAlbums = "https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&format=json" +
         "&api_key=0bf7e6c7cb7263a825e0cc0c7ec3f39d"+
         "&user="+getUserName()+
         "&period="+getPeriod()+
