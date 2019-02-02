@@ -36,13 +36,10 @@ function getData() {
         "&api_key=0bf7e6c7cb7263a825e0cc0c7ec3f39d"+
         "&user="+getUserName()+
         "&period="+getPeriod()+
-        "&limit="+totalAlbums;
-    
-    console.log(getTopAlbums);
+        "&limit="+(+totalAlbums+totalAlbums);
     
     //call the LastFM API to get the data
     $.getJSON(getTopAlbums, function(data){
-        console.log(data);
         if(data.topalbums == undefined){
             alert(data.message);
         }else{
@@ -83,8 +80,8 @@ function generateWallpaper(data){
         //to run through all albums
         var k = 0;
 
-        for(var i = 0; i < numberH; i++){
-            for(var j = 0; j < numberW; j++){
+        for(var i = 0; i < numberH && k < albums.length; i++){
+            for(var j = 0; j < numberW && k < albums.length; j++){
                 var img = new Image();
 
                 //function that draws the image after loaded on the right position
@@ -94,19 +91,21 @@ function generateWallpaper(data){
                         ctx.drawImage(img, j*imgSize, i*imgSize, imgSize, imgSize);
                     }
                 }
+
+                while(!albums[k].image[3]["#text"] && k < albums.length) {
+                    k++
+                }
+
+                if (k >= albums.length) {
+                    break;
+                }
+
                 img.onload = drawCanvasImage(ctx, img, i, j, imgSize);
                 img.src = albums[k].image[3]["#text"];
                 k++;
             }
         }
-        console.log(imageLoaded);
-        setTimeout(function(){
-            if(loadingComplete(imageLoaded)){
-                // var d=canvas.toDataURL("image/png");
-                //var w=window.open('about:blank','image from canvas');
-                //w.document.write("<img src='"+d+"' alt='from canvas'/>");
-            }
-        },2000);
+        
         document.body.appendChild(canvas);   
     }else{
         alert("Not albums enough to that resolution.");
